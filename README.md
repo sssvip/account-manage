@@ -46,15 +46,14 @@
 状态，使用radiogroup（--没用过，查一下）
 前后端通讯，采用ajax（--通讯方式，看题目应该是用jquery的ajax了，如果用vue会用vue resource或则另外的ajax通讯框架）
 后端：spring v4；mysql；freemarker（--spring v4，这里没说到不知道该不该用SpringMVC，mysql好久没用，实习一直用的postgres,这里应该问题不大，freemaker没用过，一种模板技术，应该是和其他差不了多少。）
-持久化，使用spring jdbc template(namedparameterjdbctemplate)（--这里我猜测不让用ORM工具主要是考察写SQL吧，不然我会用ORM写代码更快，这里也没说连接池问题，这个技术栈呢？）
+持久化，使用spring jdbc template(namedparameterjdbctemplate)（--没用过，以前看soring官方文档看到过，更多时候用JPA,这里我猜测不让用ORM工具主要是考察写SQL吧，不然我会用ORM写代码更快，这里也没说连接池问题，这个技术栈呢？）
 加分项：防止重复提交；nodejs+webpack/gulp（--防重准备在前端简单做一下防重，请求未返回或者超时时间内会置灰相关按钮，对于nodejs和webpack等等一些这里也就不做了，这些工具知识了解和简单使用就不再弄了）
 提交方式：提供github或者git.oschina.net的链接（--这里选用github就行）
 ```
 
 #### **数据库表设计**
 
-- 账户基本属性：编码；名称，备注；状态；创建时间；最后登录时间;账号类型
-设计简单说明：
+**设计简单说明：**
 
 这里长度根据业务来设置，这里仅根据自己理解和认识设一般情况下的值
 
@@ -63,14 +62,35 @@
 
 账号类型也用字符串来编码，优势和状态编码一样，还有好处是在身份显示时，前端无需再转换（如果是可以直接给用户类型刚好可以直接显示的话），这种编码的缺点还有一个就是在网络传输时会增大传输，如果QPS要求高的全部能省则省，改为数字编码即可。
 
-表名 tb_accout
+表名 tb_account_management
 
 | 属性 | 数据类型 | 长度 | 可空约束 | 其他约束 | 备注说明  |
 |:----|:--------:|:-----:|:----:|:----:|:--------------|
-| serial_number | int | - | false | 唯一 || 编码 |
-| name | varchar | 20 | false | 无 || 名称 |
-| remark | int | - | true | 无 || 备注 |
-| status | varchar | 4 | false | 无 || 状态 |
-| createOn | timestamp | 4 | false | 无 || 创建时间 |
-| lastLoginTime | timestamp | 4 | false | 无 || 最后登录时间 |
-| type | timestamp | 10 | false | 无 || 账号类型 |
+| serial_number | int | - | false | 唯一 | 编码 |
+| name | varchar | 20 | false | 无 | 名称 |
+| remark | varchar | 50 | true | 无 | 备注 |
+| status | varchar | 4 | false | 无 | 状态 |
+| create_on | timestamp | - | false | 无 | 创建时间 |
+| last_login_time | timestamp | - | false | 无 |最后登录时间 |
+| type | varchar | 10 | false | 无 | 账号类型 |
+
+数据库创建sql
+```sql
+DROP TABLE IF EXISTS `tb_account_management`;
+CREATE TABLE `tb_account_management` (
+  `serial_number` int(11) NOT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `remark` int(11) DEFAULT NULL,
+  `status` varchar(4) DEFAULT NULL,
+  `create_on` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `last_login_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `type` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`serial_number`)
+);
+```
+
+
+#### 说好的不能用的框架？
+json序列化不知道需不需要自己写
+连接池不知道是不是需要自己写
+

@@ -78,15 +78,15 @@
 ```sql
 DROP TABLE IF EXISTS `tb_account_management`;
 CREATE TABLE `tb_account_management` (
-  `serial_number` int(11) NOT NULL,
+  `serial_number` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
   `remark` int(11) DEFAULT NULL,
   `status` varchar(4) DEFAULT NULL,
-  `create_on` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `create_on` timestamp NULL DEFAULT NULL,
   `last_login_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `type` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`serial_number`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 ```
 
 

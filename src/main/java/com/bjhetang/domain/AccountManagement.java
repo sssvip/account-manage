@@ -84,4 +84,17 @@ public class AccountManagement {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "AccountManagement{" +
+                "serialNumber=" + serialNumber +
+                ", name='" + name + '\'' +
+                ", remark='" + remark + '\'' +
+                ", status='" + status + '\'' +
+                ", createOn=" + createOn +
+                ", lastLoginTime=" + lastLoginTime +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

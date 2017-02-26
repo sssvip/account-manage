@@ -71,11 +71,6 @@ public class AccountManagementController {
     public String list(int page, int pageSize) {
         try {
             List<AccountManagement> accountManagementList = accountManagementService.list(page, pageSize);
-            try {
-                System.out.println(new ObjectMapper().writeValueAsString(accountManagementList));
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
             return new AccountManagementDTO(accountManagementList).toString();
         } catch (ServiceException e) {
             return null;

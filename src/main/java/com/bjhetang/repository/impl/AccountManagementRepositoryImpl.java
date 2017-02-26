@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class AccountManagementRepositoryImpl implements AccountManagementReposit
         namedParameters.put("name", accountManagement.getName());
         namedParameters.put("remark", accountManagement.getRemark());
         namedParameters.put("status", accountManagement.getStatus());
-        namedParameters.put("create_On", accountManagement.getCreateOn());
+        namedParameters.put("create_On", new Date());
         namedParameters.put("last_login_time", accountManagement.getLastLoginTime());
         namedParameters.put("type", accountManagement.getType());
         if (template.update(sql, namedParameters) > 0) {
@@ -79,13 +80,14 @@ public class AccountManagementRepositoryImpl implements AccountManagementReposit
         hashMap.put("remark", accountManagement.getRemark());
         hashMap.put("status", accountManagement.getStatus());
         hashMap.put("type", accountManagement.getType());
-        int result = template.update("UPDATE TB_ACCOUNT_MANAGEMENT SET name =:name,remark =:remark,status =:status ,type =:type WHERE serial_number= :serialNumber", hashMap);
+        hashMap.put("last_login_time", new Date());
+        int result = template.update("UPDATE TB_ACCOUNT_MANAGEMENT SET name =:name,remark =:remark,status =:status ,type =:type, last_login_time =:last_login_timeWHERE serial_number= :serialNumber", hashMap);
         return result > 0 ? accountManagement : null;
     }
 
     @Override
     public AccountManagement findOne(int serialNumber) throws RepositoryException {
-        List<AccountManagement> accountManagements = template.query("SELECT * FROM TB_ACCOUNT_MANAGEMENT WHERE SERIAL_NUMBER = :serial_number", new MapSqlParameterSource("serial_number", serialNumber), new AccountManagementRowMapper());
+        List<AccountManagement> accountManagements = template.query("SELECT * FROM TB_ACCOUNT_MANAGEMENT WHERE SERIAL_NUMBER = :serial_number ORDER BY serial_number DESC", new MapSqlParameterSource("serial_number", serialNumber), new AccountManagementRowMapper());
         return accountManagements == null ? null : accountManagements.size() > 0 ? accountManagements.get(0) : null;
     }
 

@@ -4,31 +4,73 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/jquery.dataTables.css">
+    <link rel="stylesheet" href="css/daterangepicker.css">
+    <link rel="stylesheet" href="css/select2.min.css">
     <title>账户管理--简单测验</title>
 </head>
 <body>
-${test!}
+<!--注册部分-->
+<h2>注册</h2>
+名称：
+<input type="text" id="registerName" placeholder="请输入名称"/> <br>
+备注：
+<input type="text" id="registerRemark" placeholder="请输入备注"/> <br>
+状态：
+<#list statuses as status>
+    <input type="radio" name="registerStatus" value="${status!}" checked>${status!}&nbsp;&nbsp;&nbsp;
+</#list>
+<br>
+账号类型：
+<select id="registerType">
+    <#list types as type>
+        <option>${type!}</option>
+    </#list>
+</select><br>
+<button class="btn  btn-primary" type="button" id="register">注册</button>
+<hr>
+<br>
+<!--筛选部分-->
+<div>
+    <h2>筛选</h2>
+    编码：
+    <input type="text" id="serialNumber" placeholder="请输入编码"/> <br>
+    名称：
+    <input type="text" id="name" placeholder="请输入名称"/> <br>
+    注册时段：
+    <input type="text" id="dateRange" value="01/01/2015 - 01/31/2015"/><br>
+    账号类型：
+    <select id="type">
+        <#list types as type>
+            <option>${type!}</option>
+        </#list>
+    </select><br>
+    <button class="btn  btn-primary" type="button" id="filter">筛选</button>
+</div>
+<hr>
+<br>
+<!--数据展示部分-->
+<h2>数据列表</h2>
 <table id="account_managements" class="display">
     <thead>
     <tr>
-        <th>serialNumber</th>
-        <th>name</th>
-        <th>remark</th>
-        <th>status.</th>
-        <th>createOn</th>
-        <th>lastLoginTime</th>
-        <th>type</th>
+        <th>编码</th>
+        <th>名称</th>
+        <th>备注</th>
+        <th>状态</th>
+        <th>创建时间</th>
+        <th>最后一次登录时间</th>
+        <th>类型</th>
     </tr>
     </thead>
     <tfoot>
     <tr>
-        <th>serialNumber</th>
-        <th>name</th>
-        <th>remark</th>
-        <th>status.</th>
-        <th>createOn</th>
-        <th>lastLoginTime</th>
-        <th>type</th>
+        <th>编码</th>
+        <th>名称</th>
+        <th>备注</th>
+        <th>状态</th>
+        <th>创建时间</th>
+        <th>最后一次登录时间</th>
+        <th>类型</th>
     </tr>
     </tfoot>
 </table>
@@ -36,21 +78,9 @@ ${test!}
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        var table = $('#account_managements').DataTable({
-            ajax: '/accountmanagements?page=0&pageSize=20',
-            "columns": [
-                {"data": "serialNumber"},
-                {"data": "name"},
-                {"data": "remark"},
-                {"data": "status"},
-                {"data": "createOn"},
-                {"data": "lastLoginTime"},
-                {"data": "type"}
-            ]
-        });
-    });
-</script>
+<script src="js/moment.min.js"></script>
+<script src="js/daterangepicker.js"></script>
+<script src="js/select2.min_2.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>

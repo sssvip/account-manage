@@ -104,3 +104,23 @@ view一一对应起来（data关键字包含起来的一个数组），同样一
 
 随着慢慢看官方文档，还是有很多可以控制的地方。
 
+2. 登录
+登录是什么回事？这里处理的是只要修改账户管理视为登录。
+
+3. RadioGroup
+
+这个技术点没有太难的地方，以前做安卓也用到过，就是"单选组"，以前也就用radio来做单选，查了一下文档，radioGroup怎么应用起来没反应?不知道为什么
+
+这是w3c的源代码，放在网页里没反应。
+
+```html
+<menu>
+    <command onclick="alert('Hello World')" type="radio" radiogroup="group1">Click Me!</command>
+    <command onclick="alert('Good morning!')">Click This!</command>
+    <command onclick="alert('Good day!')" type="radio" radiogroup="group1">And this!</command>
+</menu>
+```
+这里先用radio实现一下，也许是浏览器兼容问题，我用chorme和360都试过了。
+
+
+

@@ -3,7 +3,6 @@ package com.bjhetang.repository.impl;
 import com.bjhetang.domain.AccountManagement;
 import com.bjhetang.exception.RepositoryException;
 import com.bjhetang.repository.AccountManagementRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -40,7 +39,7 @@ public class AccountManagementRepositoryImpl implements AccountManagementReposit
         String sql = "INSERT INTO TB_ACCOUNT_MANAGEMENT (serial_number,name,remark,status,create_On,last_login_time,type) VALUES (:serial_number,:name,:remark,:status,:create_On,:last_login_time,:type)";
         Map namedParameters = new HashMap();
         //确定新增后编码值
-        accountManagement.setSerialNumber(nextSerialNumber());
+        accountManagement.setSerialNumber(getNextSerialNumber());
         namedParameters.put("serial_number", accountManagement.getSerialNumber());
         namedParameters.put("name", accountManagement.getName());
         namedParameters.put("remark", accountManagement.getRemark());
@@ -104,12 +103,12 @@ public class AccountManagementRepositoryImpl implements AccountManagementReposit
 
     @Override
     public boolean lock(int serialNumber) throws RepositoryException {
-        return changeStatus(serialNumber, "封存");
+        return changeStatus(serialNumber, AccountManagement.STATUS_LOCKED);
     }
 
     @Override
     public boolean unlock(int serialNumber) throws RepositoryException {
-        return changeStatus(serialNumber, "启封");
+        return changeStatus(serialNumber, AccountManagement.STATUS_UNLOCKED);
     }
 
     //私有辅助相关全部放下方
@@ -147,8 +146,8 @@ public class AccountManagementRepositoryImpl implements AccountManagementReposit
         return result > 0 ? true : false;
     }
 
-    //
-    private int nextSerialNumber() {
+    //获取下一个编码
+    private int getNextSerialNumber() {
         HashMap hashMap = new HashMap();
         return template.queryForObject("SELECT serial_number FROM TB_ACCOUNT_MANAGEMENT  ORDER BY serial_number DESC limit 0,1", hashMap, Integer.class) + 1;
     }

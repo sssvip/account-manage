@@ -4,3 +4,10 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+  freemarker:
+    cache: false
+    charset: UTF-8
+    enabled: true
+    suffix: .html
+server:
+  port: 80

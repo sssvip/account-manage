@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/jquery.dataTables.css">
+    <title>账户管理--简单测验</title>
+</head>
+<body>
+${test!}
+<table id="account_managements" class="display">
+    <thead>
+    <tr>
+        <th>serialNumber</th>
+        <th>name</th>
+        <th>remark</th>
+        <th>status.</th>
+        <th>createOn</th>
+        <th>lastLoginTime</th>
+        <th>type</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th>serialNumber</th>
+        <th>name</th>
+        <th>remark</th>
+        <th>status.</th>
+        <th>createOn</th>
+        <th>lastLoginTime</th>
+        <th>type</th>
+    </tr>
+    </tfoot>
+</table>
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#account_managements').DataTable({
+            ajax: '/accountmanagements?page=0&pageSize=20',
+            "columns": [
+                {"data": "serialNumber"},
+                {"data": "name"},
+                {"data": "remark"},
+                {"data": "status"},
+                {"data": "createOn"},
+                {"data": "lastLoginTime"},
+                {"data": "type"}
+            ]
+        });
+    });
+</script>
+</body>
+</html>

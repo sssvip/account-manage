@@ -1,9 +1,11 @@
 package com.bjhetang.contorller;
 
 import com.bjhetang.domain.AccountManagement;
+import com.bjhetang.dto.AccountManagementDTO;
 import com.bjhetang.exception.ServiceException;
 import com.bjhetang.service.AccountManagementService;
-import com.sun.org.glassfish.gmbal.ParameterNames;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -66,9 +68,15 @@ public class AccountManagementController {
     //分页查询(这里就不实现sortable什么的了，默认用编码号排序--升序)
     //访问accountmanagements就代表访问账户管理复数集，直接返回，这里可以设置页码和单页数据量默认值
     @GetMapping
-    public List<AccountManagement> list(int page, int pageSize) {
+    public String list(int page, int pageSize) {
         try {
-            return accountManagementService.list(page, pageSize);
+            List<AccountManagement> accountManagementList = accountManagementService.list(page, pageSize);
+            try {
+                System.out.println(new ObjectMapper().writeValueAsString(accountManagementList));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            return new AccountManagementDTO(accountManagementList).toString();
         } catch (ServiceException e) {
             return null;
         }
@@ -95,4 +103,6 @@ public class AccountManagementController {
             return false;
         }
     }
+
+
 }

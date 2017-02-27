@@ -1,6 +1,24 @@
 # account-manage
 > 因为包名等原因，可能存在漏题风险，提交检阅后可能删除该仓库。
 
+#### How to start?
+
+1. 下载这个项目文件
+2. 本地如果有mysql,可以修改application.yml配置文件中mysql的配置(一般情况下只需要修改用户名和密码就行)
+3. 本地有mvn情况下在项目根目录使用`mvn package`进行构建打包，期间包括不限于单元测试和集成测试
+4. 在target文件夹你就能看到一个`xxxxx.jar`的jar包
+5. 启动命令: java -jar xxxx.jar
+
+我在docker中启动命令如下：
+` docker run --name httest -d -v /home/web/test:/home/web/test -p 9090:80 --link mysql:mysql java java -jar /home/web/test/account-manage.jar --spring.datasource.url="jdbc:mysql://mysql:3306/account_management?useUnicode=true&characterEncoding=UTF-8" --spring.datasource.password="XXXX"`
+
+关键点在于覆盖默认配置参数，还有可以配置多环境的配置文件，就不用传这么多参数，而是申明式启动哪一类配置文件。
+`java -jar /home/web/test/account-manage.jar --spring.datasource.url="jdbc:mysql://mysql:3306/account_management?useUnicode=true&characterEncoding=UTF-8" --spring.datasource.password="xxxx"`
+6. 打开浏览器的80端口如：localhost/或localhost/index进行查看
+
+这是基于nginx配置的域名访问：
+DEMO地址:[http://test.dxscx.com](http://test.dxscx.com)
+
 #### 简单说明
 
 关于规范，快速实现，当然有的地方未严格按照规范，这个肯定根据团队来,我相信我的适应能力，这些都是灵活根据团队而改变、更新。
@@ -32,7 +50,7 @@ Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
 
 时间有限，实现仓促，小实验仅体现快速实现、研究技术能力，如果用自己熟悉的技术栈肯定会更好，更快。
 
-简单部署与服务器，<font color="red">不再加上持续集成、持续部署等功能</font>，
+简单部署于服务器docker nginx mysql等服务软件上，<font color="red">不再加上持续集成、持续部署等功能</font>，
 
 DEMO地址:[http://test.dxscx.com](http://test.dxscx.com)
 

@@ -1,5 +1,7 @@
 package com.bjhetang.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Timestamp;
 
 /**
@@ -19,8 +21,10 @@ public class AccountManagement {
     public static final String STATUS_LOCKED = "封存";
     public static final String STATUS_UNLOCKED = "启封";
     //创建时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp createOn;
     //最后登录时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp lastLoginTime;
     //账号类型
     private String type;

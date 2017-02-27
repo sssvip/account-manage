@@ -1,7 +1,9 @@
 package com.bjhetang.repository;
 
 import com.bjhetang.domain.AccountManagement;
+import com.bjhetang.dto.AccountManagementFilter;
 import com.bjhetang.exception.RepositoryException;
+import com.bjhetang.exception.ServiceException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,4 +34,7 @@ public interface AccountManagementRepository {
 
     //启封
     boolean unlock(int serialNumber) throws RepositoryException;
+
+    //根据条件过滤
+    List<AccountManagement> page(int page, int pageSize, AccountManagementFilter accountManagementFilter) throws RepositoryException;
 }

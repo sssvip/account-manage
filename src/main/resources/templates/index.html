@@ -12,7 +12,7 @@
 <!--注册部分-->
 <h2>注册</h2>
 名称：
-<input type="text" id="registerName" placeholder="请输入名称"/> <br>
+<input type="text" id="registerName" placeholder="请输入名称"/>(必填) <br>
 备注：
 <input type="text" id="registerRemark" placeholder="请输入备注"/> <br>
 状态：
@@ -28,7 +28,6 @@
 </select><br>
 <button class="btn  btn-primary" type="button" id="register">注册</button>
 <hr>
-<br>
 <!--筛选部分-->
 <div>
     <h2>筛选</h2>
@@ -37,7 +36,7 @@
     名称：
     <input type="text" id="name" placeholder="请输入名称"/> <br>
     注册时段：
-    <input type="text" id="dateRange" value="01/01/2015 - 01/31/2015"/><br>
+    <input type="text" id="dateRange" value="2017/01/01 - 2017/03/31"/><br>
     账号类型：
     <select id="type">
         <#list types as type>
@@ -47,7 +46,6 @@
     <button class="btn  btn-primary" type="button" id="filter">筛选</button>
 </div>
 <hr>
-<br>
 <!--数据展示部分-->
 <h2>数据列表</h2>
 <table id="account_managements" class="display">
@@ -60,6 +58,7 @@
         <th>创建时间</th>
         <th>最后一次登录时间</th>
         <th>类型</th>
+        <th>操作</th>
     </tr>
     </thead>
     <tfoot>
@@ -71,9 +70,11 @@
         <th>创建时间</th>
         <th>最后一次登录时间</th>
         <th>类型</th>
+        <th>操作</th>
     </tr>
     </tfoot>
 </table>
+
 
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>

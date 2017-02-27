@@ -1,6 +1,7 @@
 package com.bjhetang.service;
 
 import com.bjhetang.domain.AccountManagement;
+import com.bjhetang.dto.AccountManagementFilter;
 import com.bjhetang.exception.RepositoryException;
 import com.bjhetang.exception.ServiceException;
 
@@ -31,4 +32,7 @@ public interface AccountManagementService {
 
     //启封
     boolean unlock(int serialNumber) throws ServiceException;
+
+    //根据过滤条件过滤
+    List<AccountManagement> page(int page, int pageSize, AccountManagementFilter accountManagementFilter) throws ServiceException;
 }

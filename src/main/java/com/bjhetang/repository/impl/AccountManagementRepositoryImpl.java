@@ -1,6 +1,7 @@
 package com.bjhetang.repository.impl;
 
 import com.bjhetang.domain.AccountManagement;
+import com.bjhetang.dto.AccountManagementFilter;
 import com.bjhetang.exception.RepositoryException;
 import com.bjhetang.repository.AccountManagementRepository;
 import org.springframework.jdbc.core.RowMapper;
@@ -81,7 +82,7 @@ public class AccountManagementRepositoryImpl implements AccountManagementReposit
         hashMap.put("status", accountManagement.getStatus());
         hashMap.put("type", accountManagement.getType());
         hashMap.put("last_login_time", new Date());
-        int result = template.update("UPDATE TB_ACCOUNT_MANAGEMENT SET name =:name,remark =:remark,status =:status ,type =:type, last_login_time =:last_login_timeWHERE serial_number= :serialNumber", hashMap);
+        int result = template.update("UPDATE TB_ACCOUNT_MANAGEMENT SET name =:name,remark =:remark,status =:status ,type =:type, last_login_time =:last_login_time WHERE serial_number= :serialNumber", hashMap);
         return result > 0 ? accountManagement : null;
     }
 
@@ -93,14 +94,7 @@ public class AccountManagementRepositoryImpl implements AccountManagementReposit
 
     @Override
     public List<AccountManagement> list(int page, int pageSize) throws RepositoryException {
-        //控制起始页
-        if (page <= 0) {
-            page = 0;
-        }
-        HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
-        hashMap.put("start", page * pageSize);
-        hashMap.put("end", pageSize);
-        return template.query("SELECT * FROM TB_ACCOUNT_MANAGEMENT LIMIT :start,:end", hashMap, new AccountManagementRowMapper());
+        return page(page, pageSize, null);
     }
 
     @Override
@@ -111,6 +105,49 @@ public class AccountManagementRepositoryImpl implements AccountManagementReposit
     @Override
     public boolean unlock(int serialNumber) throws RepositoryException {
         return changeStatus(serialNumber, AccountManagement.STATUS_UNLOCKED);
+    }
+
+    @Override
+    public List<AccountManagement> page(int page, int pageSize, AccountManagementFilter accountManagementFilter) throws RepositoryException {
+        //控制起始页
+        if (page <= 0) {
+            page = 0;
+        }
+        //构造查询SQL
+        StringBuffer filterSql = new StringBuffer();
+        filterSql.append("SELECT * FROM TB_ACCOUNT_MANAGEMENT where 1=1 ");
+        if (accountManagementFilter != null) {
+            //编码模糊查询
+            if (accountManagementFilter.getSerialNumber() != null && !"".equals(accountManagementFilter.getSerialNumber())) {
+                filterSql.append(" and serial_number like '%" + accountManagementFilter.getSerialNumber() + "%' ");
+            }
+            //名称模糊查询
+            if (accountManagementFilter.getName() != null && !"".equals(accountManagementFilter.getName())) {
+                filterSql.append(" and name like '%" + accountManagementFilter.getName() + "%' ");
+            }
+            //时间处理
+            if (accountManagementFilter.getDateRange() != null && !"".equals(accountManagementFilter.getDateRange())) {
+                try {
+                    String start = accountManagementFilter.getDateRange().split("-")[0].replace("/", "-");
+                    String end = accountManagementFilter.getDateRange().split("-")[1].replace("/", "-");
+                    filterSql.append(" and create_on BETWEEN '" + start + "' AND '" + end+"' ");
+                } catch (Exception e) {
+                    //时间处理这里处理不了就跳过，这里应该是约定数据格式的
+                    throw new RepositoryException("时间格式需要约定");
+                }
+            }
+            //用户类型
+            if (accountManagementFilter.getType() != null && !"".equals(accountManagementFilter.getType())) {
+                filterSql.append(" and type = '" + accountManagementFilter.getType()+"' ");
+            }
+        }
+        //添加分页
+        filterSql.append(" LIMIT :start,:end");
+        HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+        hashMap.put("start", page * pageSize);
+        hashMap.put("end", pageSize);
+        System.out.println(filterSql.toString());
+        return template.query(filterSql.toString(), hashMap, new AccountManagementRowMapper());
     }
 
     //私有辅助相关全部放下方

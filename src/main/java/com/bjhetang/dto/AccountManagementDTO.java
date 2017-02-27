@@ -12,6 +12,13 @@ import java.util.HashMap;
 public class AccountManagementDTO implements Serializable {
     private HashMap<String, Object> out;
 
+    public AccountManagementDTO() {
+    }
+
+    public AccountManagementDTO(HashMap<String, Object> out) {
+        this.out = out;
+    }
+
     public AccountManagementDTO(Object data) {
         out = new HashMap<String, Object>();
         out.put("data", data);

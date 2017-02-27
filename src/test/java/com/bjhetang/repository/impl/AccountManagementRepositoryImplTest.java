@@ -1,6 +1,7 @@
 package com.bjhetang.repository.impl;
 
 import com.bjhetang.domain.AccountManagement;
+import com.bjhetang.dto.AccountManagementFilter;
 import com.bjhetang.repository.AccountManagementRepository;
 import org.junit.After;
 import org.junit.Assert;
@@ -102,5 +103,13 @@ public class AccountManagementRepositoryImplTest {
         accountManagementRepository.delete(accountManagementHelper.getSerialNumber());
         //删除后断言空
         Assert.assertNull(accountManagementRepository.findOne(accountManagementHelper.getSerialNumber()));
+    }
+
+    @Test
+    public void page() throws Exception {
+        AccountManagementFilter accountManagementFilter = new AccountManagementFilter();
+        accountManagementFilter.setName("测试账户");
+        List<AccountManagement> accountManagementList=accountManagementRepository.page(0, 3, accountManagementFilter);
+        Assert.assertNotNull(accountManagementList);
     }
 }

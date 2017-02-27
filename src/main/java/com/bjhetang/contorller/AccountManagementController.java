@@ -2,13 +2,18 @@ package com.bjhetang.contorller;
 
 import com.bjhetang.domain.AccountManagement;
 import com.bjhetang.dto.AccountManagementDTO;
+import com.bjhetang.dto.AccountManagementFilter;
 import com.bjhetang.exception.ServiceException;
 import com.bjhetang.service.AccountManagementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -68,14 +73,24 @@ public class AccountManagementController {
     //分页查询(这里就不实现sortable什么的了，默认用编码号排序--升序)
     //访问accountmanagements就代表访问账户管理复数集，直接返回，这里可以设置页码和单页数据量默认值
     @GetMapping
-    public String list(int page, int pageSize) {
+    public String list(int page, int pageSize, HttpServletRequest request) {
+        AccountManagementFilter accountManagementFilter = null;
+        //筛选情况
+        if (request.getParameter("accountManagementFilter") != null) {
+            try {
+                accountManagementFilter = new ObjectMapper().readValue(request.getParameter("accountManagementFilter"), AccountManagementFilter.class);
+            } catch (IOException e) {
+
+            }
+        }
         try {
-            List<AccountManagement> accountManagementList = accountManagementService.list(page, pageSize);
+            List<AccountManagement> accountManagementList = accountManagementService.page(page, pageSize, accountManagementFilter);
             return new AccountManagementDTO(accountManagementList).toString();
         } catch (ServiceException e) {
             return null;
         }
     }
+
 
     @PutMapping("{serialNumber}/status")
     public boolean status(@PathVariable int serialNumber, String status) {
@@ -98,6 +113,4 @@ public class AccountManagementController {
             return false;
         }
     }
-
-
 }

@@ -1,6 +1,7 @@
 package com.bjhetang.service.impl;
 
 import com.bjhetang.domain.AccountManagement;
+import com.bjhetang.dto.AccountManagementFilter;
 import com.bjhetang.exception.RepositoryException;
 import com.bjhetang.exception.ServiceException;
 import com.bjhetang.repository.AccountManagementRepository;
@@ -77,6 +78,15 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     public boolean unlock(int serialNumber) throws ServiceException {
         try {
             return accountManagementRepository.unlock(serialNumber);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<AccountManagement> page(int page, int pageSize, AccountManagementFilter accountManagementFilter) throws ServiceException {
+        try {
+            return accountManagementRepository.page(page, pageSize, accountManagementFilter);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage());
         }

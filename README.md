@@ -9,15 +9,15 @@
 4. 在target文件夹你就能看到一个`xxxxx.jar`的jar包
 5. 启动命令: java -jar xxxx.jar
 
-我在docker中启动命令如下：
-` docker run --name httest -d -v /home/web/test:/home/web/test -p 9090:80 --link mysql:mysql java java -jar /home/web/test/account-manage.jar --spring.datasource.url="jdbc:mysql://mysql:3306/account_management?useUnicode=true&characterEncoding=UTF-8" --spring.datasource.password="XXXX"`
+    我在docker中启动命令如下：
+    ` docker run --name httest -d -v /home/web/test:/home/web/test -p 9090:80 --link mysql:mysql java java -jar /home/web/test/account-manage.jar --spring.datasource.url="jdbc:mysql://mysql:3306/account_management?useUnicode=true&characterEncoding=UTF-8" --spring.datasource.password="XXXX"`
 
-关键点在于覆盖默认配置参数，还有可以配置多环境的配置文件，就不用传这么多参数，而是申明式启动哪一类配置文件。
-`java -jar /home/web/test/account-manage.jar --spring.datasource.url="jdbc:mysql://mysql:3306/account_management?useUnicode=true&characterEncoding=UTF-8" --spring.datasource.password="xxxx"`
+    关键点在于覆盖默认配置参数，还有可以配置多环境的配置文件，就不用传这么多参数，而是申明式启动哪一类配置文件。
+    `java -jar /home/web/test/account-manage.jar --spring.datasource.url="jdbc:mysql://mysql:3306/account_management?useUnicode=true&characterEncoding=UTF-8" --spring.datasource.password="xxxx"`
 6. 打开浏览器的80端口如：localhost/或localhost/index进行查看
 
-这是基于nginx配置的域名访问：
-DEMO地址:[http://test.dxscx.com](http://test.dxscx.com)
+    这是基于nginx配置的域名访问：
+    DEMO地址:[http://test.dxscx.com](http://test.dxscx.com)
 
 #### 简单说明
 
